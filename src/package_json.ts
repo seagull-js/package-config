@@ -42,25 +42,6 @@ export class PackageJson {
     writeFileSync(this.path, JSON.stringify(pkg, null, 2))
   }
 
-  /**
-   * If no app folder is given, make an educated guess
-   * TODO: this testing stuff is really dirty this way, clean up!
-   */
-  private guessFilePath() {
-    const { AWS_EXECUTION_ENV, LAMBDA_TASK_ROOT, NODE_ENV } = process.env
-    // most common case: used within a lambda function
-    const isLambda = LAMBDA_TASK_ROOT && AWS_EXECUTION_ENV
-    const lambdaPath = '/var/task/package.json'
-    !this.path && isLambda ? (this.path = lambdaPath) : noop()
-    // special usecase: load in functional tests
-    const isTest = NODE_ENV === 'test'
-    const testPath = '../../../../../__tmp__/.seagull/package.json'
-    !this.path && isTest ? (this.path = testPath) : noop()
-    // special usecase: load in devserver
-    const appPath = '../../../../../.seagull/package.json'
-    !this.path ? (this.path = appPath) : noop()
-  }
-
   // dirty trick to load mocked data
   private loadFromMock() {
     const cfg = new Config()
@@ -70,7 +51,7 @@ export class PackageJson {
 
   // load an actual file
   private loadFromFile() {
-    !this.path ? this.guessFilePath() : noop()
+    !this.path ? (this.path = `${process.cwd()}/package.json`) : noop()
     const cfg = new Config()
     const file = readFileSync(this.path, 'utf-8')
     const { seagull } = JSON.parse(file)
