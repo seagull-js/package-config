@@ -54,4 +54,22 @@ class FunctionalTest extends Test {
     pkg.config.domains.should.be.an('array')
     pkg.config.domains[0].should.be.equal('example.com')
   }
+
+  @test
+  'has default aws region'() {
+    const mock = { seagull: {} }
+    this.mockPackageFile('/tmp', 'package.json', JSON.stringify(mock))
+    const pkg = new PackageJson('/tmp/package.json')
+    pkg.config.should.be.an('object')
+    pkg.config.region.should.be.equal('eu-west-1')
+  }
+
+  @test
+  'can load aws region'() {
+    const mock = { seagull: { region: 'eu-central-1' } }
+    this.mockPackageFile('/tmp', 'package.json', JSON.stringify(mock))
+    const pkg = new PackageJson('/tmp/package.json')
+    pkg.config.should.be.an('object')
+    pkg.config.region.should.be.equal('eu-central-1')
+  }
 }

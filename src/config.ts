@@ -1,5 +1,11 @@
 export default class Config {
   /**
+   * the AWS region for the application stack. Not all features are available
+   * in all regions
+   */
+  region: string = 'eu-west-1'
+
+  /**
    * domain list, for enabling within cloudfront
    */
   domains?: string[]

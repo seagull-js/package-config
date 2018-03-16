@@ -12,14 +12,6 @@ class ConfigTest {
   }
 
   @test
-  'has no default values'() {
-    const cfg = new Config()
-    ;(typeof cfg.analytics).should.be.equal('undefined')
-    ;(typeof cfg.domains).should.be.equal('undefined')
-    ;(typeof cfg.faviconFiles).should.be.equal('undefined')
-  }
-
-  @test
   'can enable analytics'() {
     const cfg = new Config()
     cfg.enableAnalytics('UA-XXXXXX')
@@ -53,5 +45,11 @@ class ConfigTest {
     cfg.domains.should.be.an('array')
     cfg.domains.should.have.length(3)
     cfg.domains[2].should.be.equal('example.com')
+  }
+
+  @test
+  'has default aws region'() {
+    const cfg = new Config()
+    cfg.region.should.be.equal('eu-west-1')
   }
 }
