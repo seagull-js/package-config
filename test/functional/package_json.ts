@@ -72,4 +72,13 @@ class FunctionalTest extends Test {
     pkg.config.should.be.an('object')
     pkg.config.region.should.be.equal('eu-central-1')
   }
+
+  @test
+  'can load name'() {
+    const mock = { name: 'myapp', seagull: {} }
+    this.mockPackageFile('/tmp', 'package.json', JSON.stringify(mock))
+    const pkg = new PackageJson('/tmp/package.json')
+    pkg.config.should.be.an('object')
+    pkg.name.should.be.equal('myapp')
+  }
 }

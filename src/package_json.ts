@@ -7,7 +7,15 @@ export interface IPackageJson {
 }
 
 export class PackageJson {
+  /**
+   * Seagull-specific configuration
+   */
   config: Config
+
+  /**
+   * Your app name
+   */
+  name: string
 
   constructor(private path?: string) {
     process.env.config_mock ? this.loadFromMock() : this.loadFromFile()
@@ -45,7 +53,8 @@ export class PackageJson {
   // dirty trick to load mocked data
   private loadFromMock() {
     const cfg = new Config()
-    const { seagull } = JSON.parse(process.env.config_mock)
+    const { name, seagull } = JSON.parse(process.env.config_mock)
+    this.name = name
     this.config = Object.assign(cfg, seagull)
   }
 
@@ -54,7 +63,8 @@ export class PackageJson {
     !this.path ? (this.path = `${process.cwd()}/package.json`) : noop()
     const cfg = new Config()
     const file = readFileSync(this.path, 'utf-8')
-    const { seagull } = JSON.parse(file)
+    const { name, seagull } = JSON.parse(file)
+    this.name = name
     this.config = Object.assign(cfg, seagull)
   }
 }
