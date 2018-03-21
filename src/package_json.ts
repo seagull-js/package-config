@@ -59,7 +59,7 @@ export class PackageJson {
 
   // load an actual file
   private loadFromFile() {
-    !this.path ? (this.path = `${process.cwd()}/package.json`) : noop()
+    !this.path ? this.guessFilePath() : noop()
     const cfg = new Config()
     const file = require('fs').readFileSync(this.path, 'utf-8')
     const { name, seagull } = JSON.parse(file)
