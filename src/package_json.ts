@@ -1,4 +1,3 @@
-import { readFileSync, writeFileSync } from 'fs'
 import { noop } from 'lodash'
 import Config from './config'
 
@@ -45,9 +44,9 @@ export class PackageJson {
    * save all changes from this.config to package file
    */
   private save(): void {
-    const pkg = JSON.parse(readFileSync(this.path, 'utf-8'))
+    const pkg = JSON.parse(require('fs').readFileSync(this.path, 'utf-8'))
     pkg.seagull = this.config
-    writeFileSync(this.path, JSON.stringify(pkg, null, 2))
+    require('fs').writeFileSync(this.path, JSON.stringify(pkg, null, 2))
   }
 
   // dirty trick to load mocked data
@@ -62,7 +61,7 @@ export class PackageJson {
   private loadFromFile() {
     !this.path ? (this.path = `${process.cwd()}/package.json`) : noop()
     const cfg = new Config()
-    const file = readFileSync(this.path, 'utf-8')
+    const file = require('fs').readFileSync(this.path, 'utf-8')
     const { name, seagull } = JSON.parse(file)
     this.name = name
     this.config = Object.assign(cfg, seagull)
