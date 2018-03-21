@@ -1,6 +1,6 @@
 {
     "name": "@seagull/package-config",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "description": "configuration management for seagull apps via package.json",
     "main": "dist/src/index.js",
     "types": "dist/src/index.d.js",
