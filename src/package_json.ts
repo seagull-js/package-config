@@ -59,26 +59,11 @@ export class PackageJson {
 
   // load an actual file
   private loadFromFile() {
-    !this.path ? this.guessFilePath() : noop()
+    !this.path ? (this.path = `${process.cwd()}/package.json`) : noop()
     const cfg = new Config()
     const file = require('fs').readFileSync(this.path, 'utf-8')
     const { name, seagull } = JSON.parse(file)
     this.name = name
     this.config = Object.assign(cfg, seagull)
-  }
-
-  private guessFilePath() {
-    const { AWS_EXECUTION_ENV, LAMBDA_TASK_ROOT, NODE_ENV } = process.env
-    // most common case: used within a lambda function
-    const isLambda = LAMBDA_TASK_ROOT && AWS_EXECUTION_ENV
-    const lambdaPath = '/var/task/package.json'
-    !this.path && isLambda ? (this.path = lambdaPath) : noop()
-    // special usecase: load in functional tests
-    const isTest = NODE_ENV === 'test'
-    const testPath = '../../../../../__tmp__/.seagull/package.json'
-    !this.path && isTest ? (this.path = testPath) : noop()
-    // special usecase: load in devserver
-    const appPath = '../../../../../.seagull/package.json'
-    !this.path ? (this.path = appPath) : noop()
   }
 }
