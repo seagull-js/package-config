@@ -31,12 +31,12 @@ export class PackageJson {
   }
 
   /**
-   * enable google analytics tracking and save setting to package.json
+   * enable google analytics/ google tag manager tracking and save setting to package.json
    *
    * @param gaCode ID of your google analytics property, like: 'UA-XXXXXX'
    */
-  enableAnalytics(gaCode: string): void {
-    this.config.enableAnalytics(gaCode)
+  enableAnalytics(code: string): void {
+    this.config.enableAnalytics(code)
     this.save()
   }
 

@@ -28,6 +28,11 @@ export default class Config {
      * identifier string from google analytics for this website
      */
     ga?: string
+
+    /**
+     * identifier string from google tag manager for this website
+     */
+    gtm?: string
   }
 
   /**
@@ -35,10 +40,11 @@ export default class Config {
    *
    * @param gaCode id for your google analytics property, like 'UA-XXXXXXXX'
    */
-  enableAnalytics(gaCode: string): void {
+  enableAnalytics(code: string): void {
     const opts = this.analytics || {}
+    const codeType = code.startsWith('GTM') ? 'gtm' : 'ga'
     opts.enabled = true
-    opts.ga = gaCode
+    opts[codeType] = code
     this.analytics = opts
   }
 

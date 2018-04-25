@@ -21,6 +21,15 @@ class ConfigTest {
   }
 
   @test
+  'can enable tag manager'() {
+    const cfg = new Config()
+    cfg.enableAnalytics('GTM-XXXXXX')
+    cfg.analytics.should.be.an('object')
+    cfg.analytics.enabled.should.be.equal(true)
+    cfg.analytics.gtm.should.be.equal('GTM-XXXXXX')
+  }
+
+  @test
   'can test for analytics activation'() {
     const cfg = new Config()
     cfg.hasAnalytics().should.be.equal(false)
